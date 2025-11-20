@@ -1,0 +1,45 @@
+cards:
+  - sixteenDigitCode: "1074934738462846"
+    dateOfExpiry: "2026-11"
+    cvvCode: "729"
+    cardTier: "MASTERCARD"
+
+  - sixteenDigitCode: "1002854749722846"
+    dateOfExpiry: "2028-02"
+    cvvCode: "189"
+    cardTier: "VISA"
+
+  - sixteenDigitCode: "2084727984619452"
+    dateOfExpiry: "2030-05"
+    cvvCode: "935"
+    cardTier: "AMERICAN_EXPRESS"
+
+  - sixteenDigitCode: "0284934720482844"
+    dateOfExpiry: "2029-12"
+    cvvCode: "036"
+    cardTier: "MASTERCARD"
+
+  - sixteenDigitCode: "539439738460261"
+    dateOfExpiry: "2027-09"
+    cvvCode: "758"
+    cardTier: "AMERICAN_EXPRESS"
+
+  - sixteenDigitCode: "1836284738429566"
+    dateOfExpiry: "2027-03"
+    cvvCode: "548"
+    cardTier: "VISA"
+
+  - sixteenDigitCode: "9356284026424837"
+    dateOfExpiry: "2027-06"
+    cvvCode: "379"
+    cardTier: "VISA"
+
+  - sixteenDigitCode: "1284674738846716"
+    dateOfExpiry: "2028-08"
+    cvvCode: "517"
+    cardTier: "VISA"
+
+  - sixteenDigitCode: "0236282947429359"
+    dateOfExpiry: "2029-01"
+    cvvCode: "748"
+    cardTier: "MASTERCARD"

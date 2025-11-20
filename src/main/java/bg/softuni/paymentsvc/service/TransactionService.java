@@ -2,6 +2,7 @@ package bg.softuni.paymentsvc.service;
 
 import bg.softuni.paymentsvc.model.Transaction;
 import bg.softuni.paymentsvc.model.TransactionStatus;
+import bg.softuni.paymentsvc.property.CardsProperties;
 import bg.softuni.paymentsvc.repository.TransactionRepository;
 import bg.softuni.paymentsvc.web.dto.PaymentRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +18,21 @@ import java.util.UUID;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
+    private final CardsProperties cardsProperties;
 
     @Autowired
-    public TransactionService(TransactionRepository transactionRepository) {
+    public TransactionService(TransactionRepository transactionRepository, CardsProperties cardsProperties) {
         this.transactionRepository = transactionRepository;
+        this.cardsProperties = cardsProperties;
     }
 
     public Transaction processPayment(PaymentRequest paymentRequest) {
+
+        boolean areCardDetailsValid = cardsProperties.doesCardExist(paymentRequest.getSixteenDigitCode(), paymentRequest.getDateOfExpiry(), paymentRequest.getCvvCode(), paymentRequest.getCardTier());
+
+        if (!areCardDetailsValid) {
+            throw new RuntimeException("Card details are wrong");
+        }
 
         String description = getDescriptionBySubscriptionType(paymentRequest.getSubscriptionType());
 

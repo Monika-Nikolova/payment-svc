@@ -21,18 +21,18 @@ public class PaymentRequest {
     @NotBlank
     private BigDecimal amount;
 
-//    @NotBlank
-//    @Size(min = 16, max = 16)
-//    @Pattern(regexp = "\\d+", message = "Only digits allowed")
-//    private String sixteenDigitCode;
-//
-//    @NotBlank
-//    private YearMonth dateOfExpiry;
-//
-//    @NotBlank
-//    @Size(min = 3, max = 4)
-//    @Pattern(regexp = "\\d+", message = "Only digits allowed")
-//    private String ccvCode;
+    @NotBlank
+    @Size(min = 16, max = 16)
+    @Pattern(regexp = "\\d+", message = "Only digits allowed")
+    private String sixteenDigitCode;
+
+    @NotBlank
+    private YearMonth dateOfExpiry;
+
+    @NotBlank
+    @Size(min = 3, max = 4)
+    @Pattern(regexp = "\\d+", message = "Only digits allowed")
+    private String cvvCode;
 
     @NotNull
     private String cardTier;
