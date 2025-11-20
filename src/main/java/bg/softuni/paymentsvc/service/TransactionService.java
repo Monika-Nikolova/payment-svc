@@ -30,33 +30,31 @@ public class TransactionService {
 
         boolean areCardDetailsValid = cardsProperties.doesCardExist(paymentRequest.getSixteenDigitCode(), paymentRequest.getDateOfExpiry(), paymentRequest.getCvvCode(), paymentRequest.getCardTier());
 
+        TransactionStatus status = TransactionStatus.SUCCEEDED;
+        String failureReason = null;
+
         if (!areCardDetailsValid) {
-            throw new RuntimeException("Card details are wrong");
+            status = TransactionStatus.FAILED;
+            failureReason = "Card details are invalid";
+            log.info("Payment failed for user {} with card {}", paymentRequest.getUserId(), paymentRequest.getCardTier());
+        } else {
+            log.info("Payment successful for user {} with card {}", paymentRequest.getUserId(), paymentRequest.getCardTier());
         }
 
-        String description = getDescriptionBySubscriptionType(paymentRequest.getSubscriptionType());
+        String description = String.format("Purchase of %s subscription",  paymentRequest.getSubscriptionType());
 
-        makePayment(paymentRequest.getUserId(), paymentRequest.getCardTier());
-
-        return createTransaction(paymentRequest.getUserId(), paymentRequest.getAmount(), description);
+        return createTransaction(paymentRequest.getUserId(), paymentRequest.getAmount(), description, status, failureReason);
     }
 
-    private void makePayment(UUID userId, String cardTier) {
-        log.info("Payment successful for user {} with card {}", userId, cardTier);
-    }
-
-    private String getDescriptionBySubscriptionType(String subscriptionType) {
-        return String.format("Purchase of %s subscription",  subscriptionType);
-    }
-
-    private Transaction createTransaction(UUID userId, BigDecimal amount, String description) {
+    private Transaction createTransaction(UUID userId, BigDecimal amount, String description, TransactionStatus status, String failureReason) {
 
         Transaction transaction = Transaction.builder()
                 .userId(userId)
                 .amount(amount)
-                .status(TransactionStatus.SUCCEEDED)
+                .status(status)
                 .description(description)
                 .createdOn(LocalDateTime.now())
+                .failureReason(failureReason)
                 .build();
 
         transaction = transactionRepository.save(transaction);
