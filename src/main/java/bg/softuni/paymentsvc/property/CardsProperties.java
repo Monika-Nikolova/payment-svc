@@ -2,6 +2,7 @@ package bg.softuni.paymentsvc.property;
 
 
 import bg.softuni.paymentsvc.config.YamlPropertySourceFactory;
+import bg.softuni.paymentsvc.model.CardTier;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +14,7 @@ import java.util.List;
 @Data
 @Configuration
 @ConfigurationProperties
-@PropertySource(value = "cards.yaml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "cards.yml", factory = YamlPropertySourceFactory.class)
 public class CardsProperties {
 
     List<Card> cards;
@@ -26,9 +27,9 @@ public class CardsProperties {
         private String cardTier;
     }
 
-    public boolean doesCardExist(String sixteenDigitCode, YearMonth dateOfExpiry, String cvvCode, String cardTier) {
+    public boolean doesCardExist(String sixteenDigitCode, YearMonth dateOfExpiry, String cvvCode, CardTier cardTier) {
         for (Card card : cards) {
-            if (card.sixteenDigitCode.equals(sixteenDigitCode) && card.dateOfExpiry.equals(dateOfExpiry) && card.cvvCode.equals(cvvCode) && card.cardTier.equals(cardTier)) {
+            if (card.sixteenDigitCode.equals(sixteenDigitCode) && card.dateOfExpiry.equals(dateOfExpiry) && card.cvvCode.equals(cvvCode) && card.cardTier.equals(cardTier.name())) {
                 return true;
             }
         }

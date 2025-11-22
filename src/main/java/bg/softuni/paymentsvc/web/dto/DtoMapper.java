@@ -8,8 +8,13 @@ public class DtoMapper {
     public static PaymentResponse fromTransaction(Transaction transaction) {
         return PaymentResponse.builder()
                 .status(transaction.getStatus().name())
-                .description(transaction.getDescription())
+                .amount(transaction.getAmount())
+                .cardTier(transaction.getCardTier())
                 .failureReason(transaction.getFailureReason())
+                .lastFourDigitsOfCardNumber(transaction.getLastFourDigitsOfCardNumber())
+                .transactionId(transaction.getId())
+                .period(transaction.getPeriod())
+                .subscriptionType(transaction.getSubscriptionType())
                 .build();
     }
 }

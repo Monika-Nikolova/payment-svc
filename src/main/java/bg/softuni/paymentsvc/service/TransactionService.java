@@ -41,24 +41,31 @@ public class TransactionService {
             log.info("Payment successful for user {} with card {}", paymentRequest.getUserId(), paymentRequest.getCardTier());
         }
 
-        String description = String.format("Purchase of %s subscription",  paymentRequest.getSubscriptionType());
+        String description = String.format("Purchase of %s subscription for period %s",  paymentRequest.getSubscriptionType(), paymentRequest.getPeriod());
 
-        return createTransaction(paymentRequest.getUserId(), paymentRequest.getAmount(), description, status, failureReason);
-    }
-
-    private Transaction createTransaction(UUID userId, BigDecimal amount, String description, TransactionStatus status, String failureReason) {
-
-        Transaction transaction = Transaction.builder()
-                .userId(userId)
-                .amount(amount)
-                .status(status)
-                .description(description)
-                .createdOn(LocalDateTime.now())
-                .failureReason(failureReason)
-                .build();
-
+        Transaction transaction = createTransaction(paymentRequest, description, status, failureReason);
         transaction = transactionRepository.save(transaction);
 
         return transaction;
+    }
+
+    private Transaction createTransaction(PaymentRequest paymentRequest, String description, TransactionStatus status, String failureReason) {
+
+        return Transaction.builder()
+                .userId(paymentRequest.getUserId())
+                .amount(paymentRequest.getAmount())
+                .status(status)
+                .cardTier(paymentRequest.getCardTier())
+                .description(description)
+                .createdOn(LocalDateTime.now())
+                .failureReason(failureReason)
+                .lastFourDigitsOfCardNumber(Integer.parseInt(paymentRequest.getSixteenDigitCode().substring(paymentRequest.getSixteenDigitCode().length() - 4)))
+                .period(paymentRequest.getPeriod())
+                .subscriptionType(paymentRequest.getSubscriptionType())
+                .build();
+    }
+
+    public Transaction getById(UUID transactionId) {
+        return transactionRepository.findById(transactionId).orElseThrow(() -> new RuntimeException(String.format("Transaction with id %s not found", transactionId)));
     }
 }

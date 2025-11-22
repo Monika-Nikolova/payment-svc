@@ -9,9 +9,9 @@ cards:
     cvvCode: "189"
     cardTier: "VISA"
 
-  - sixteenDigitCode: "2084727984619452"
+  - sixteenDigitCode: "208472798461942"
     dateOfExpiry: "2030-05"
-    cvvCode: "935"
+    cvvCode: "9352"
     cardTier: "AMERICAN_EXPRESS"
 
   - sixteenDigitCode: "0284934720482844"
@@ -19,9 +19,9 @@ cards:
     cvvCode: "036"
     cardTier: "MASTERCARD"
 
-  - sixteenDigitCode: "539439738460261"
+  - sixteenDigitCode: "539439738460268"
     dateOfExpiry: "2027-09"
-    cvvCode: "758"
+    cvvCode: "7584"
     cardTier: "AMERICAN_EXPRESS"
 
   - sixteenDigitCode: "1836284738429566"

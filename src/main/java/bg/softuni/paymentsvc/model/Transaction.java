@@ -19,6 +19,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false)
     private UUID userId;
 
     @Column(nullable = false)
@@ -29,10 +30,21 @@ public class Transaction {
     private TransactionStatus status;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CardTier cardTier;
+
+    @Column(nullable = false)
     private String description;
 
     private String failureReason;
 
     @Column(nullable = false)
     private LocalDateTime createdOn;
+
+    @Column(nullable = false)
+    private int lastFourDigitsOfCardNumber;
+
+    private String period;
+
+    private String subscriptionType;
 }
