@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -67,5 +68,9 @@ public class TransactionService {
 
     public Transaction getById(UUID transactionId) {
         return transactionRepository.findById(transactionId).orElseThrow(() -> new RuntimeException(String.format("Transaction with id %s not found", transactionId)));
+    }
+
+    public List<Transaction> getAllForLastWeek() {
+        return transactionRepository.findByCreatedOnBetweenAndStatus(LocalDateTime.now().minusWeeks(1), LocalDateTime.now(), TransactionStatus.SUCCEEDED);
     }
 }
