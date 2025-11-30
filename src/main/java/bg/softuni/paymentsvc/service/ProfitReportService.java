@@ -1,6 +1,7 @@
 package bg.softuni.paymentsvc.service;
 
 import bg.softuni.paymentsvc.model.ProfitReport;
+import bg.softuni.paymentsvc.model.ProfitReportStatus;
 import bg.softuni.paymentsvc.model.Transaction;
 import bg.softuni.paymentsvc.repository.ProfitReportRepository;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +38,7 @@ public class ProfitReportService {
                 .amount(totalProfit)
                 .createdOn(LocalDateTime.now())
                 .numberOfTransactions(transactions.size())
+                .status(ProfitReportStatus.NOT_PROCESSED)
                 .build();
 
         profitReportRepository.save(profitReport);
@@ -46,5 +50,25 @@ public class ProfitReportService {
 
     public List<ProfitReport> getOldProfitReports() {
         return profitReportRepository.getAllByOrderByCreatedOnDesc().stream().skip(1).collect(Collectors.toList());
+    }
+
+    public ProfitReport changeStatus(UUID id) {
+
+        Optional<ProfitReport> optionalProfitReport = profitReportRepository.findById(id);
+
+        if (optionalProfitReport.isEmpty()) {
+            throw new IllegalArgumentException(String.format("Profit report with id [%s] does not exist", id));
+        }
+
+        ProfitReport profitReport = optionalProfitReport.get();
+        profitReport.setStatus(ProfitReportStatus.PROCESSED);
+
+        profitReportRepository.save(profitReport);
+
+        return profitReport;
+    }
+
+    public List<ProfitReport> getAll() {
+        return profitReportRepository.findAll();
     }
 }

@@ -30,4 +30,8 @@ public class ProfitReport {
 
     @Column(nullable = false)
     private long numberOfTransactions;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ProfitReportStatus status;
 }

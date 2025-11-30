@@ -29,6 +29,7 @@ public class DtoMapper {
                 .amount(profitReport.getAmount())
                 .createdOn(profitReport.getCreatedOn())
                 .numberOfTransactions(profitReport.getNumberOfTransactions())
+                .status(profitReport.getStatus().getDisplayName())
                 .build();
     }
 
