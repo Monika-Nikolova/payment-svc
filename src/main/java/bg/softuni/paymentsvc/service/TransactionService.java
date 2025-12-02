@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -37,9 +36,9 @@ public class TransactionService {
         if (!areCardDetailsValid) {
             status = TransactionStatus.FAILED;
             failureReason = "Card details are invalid";
-            log.info("Payment failed for user {} with card {}", paymentRequest.getUserId(), paymentRequest.getCardTier());
+            log.info("Payment failed for user [{}] with card [{}]", paymentRequest.getUserId(), paymentRequest.getCardTier());
         } else {
-            log.info("Payment successful for user {} with card {}", paymentRequest.getUserId(), paymentRequest.getCardTier());
+            log.info("Payment successful for user [{}] with card [{}]", paymentRequest.getUserId(), paymentRequest.getCardTier());
         }
 
         String description = String.format("Purchase of %s subscription for period %s",  paymentRequest.getSubscriptionType(), paymentRequest.getPeriod());
