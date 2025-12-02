@@ -14,7 +14,7 @@ public class ProfitReportScheduler {
         this.profitReportService = profitReportService;
     }
 
-    @Scheduled(cron = "0 0 12 * * 2")
+    @Scheduled(cron = "0 0 0 * * 0")
     public void generateWeeklyProfitReport() {
         profitReportService.generateProfitReport();
     }
