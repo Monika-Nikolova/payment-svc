@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "cards")
+@ConfigurationProperties
 @PropertySource(value = "classpath:cards.yml", factory = YamlPropertySourceFactory.class)
 public class CardsProperties {
 
