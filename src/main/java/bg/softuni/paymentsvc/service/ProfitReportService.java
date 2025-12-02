@@ -1,9 +1,11 @@
 package bg.softuni.paymentsvc.service;
 
+import bg.softuni.paymentsvc.exception.ProfitReportNotFoundException;
 import bg.softuni.paymentsvc.model.ProfitReport;
 import bg.softuni.paymentsvc.model.ProfitReportStatus;
 import bg.softuni.paymentsvc.model.Transaction;
 import bg.softuni.paymentsvc.repository.ProfitReportRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -13,9 +15,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ProfitReportService {
-
 
     private final ProfitReportRepository profitReportRepository;
     private final TransactionService transactionService;
@@ -57,7 +59,7 @@ public class ProfitReportService {
         Optional<ProfitReport> optionalProfitReport = profitReportRepository.findById(id);
 
         if (optionalProfitReport.isEmpty()) {
-            throw new IllegalArgumentException(String.format("Profit report with id [%s] does not exist", id));
+            throw new ProfitReportNotFoundException(String.format("Profit report with id [%s] does not exist", id));
         }
 
         ProfitReport profitReport = optionalProfitReport.get();
@@ -65,6 +67,7 @@ public class ProfitReportService {
 
         profitReportRepository.save(profitReport);
 
+        log.info("The status of profit report with id [{}] has been changed to processed", id);
         return profitReport;
     }
 
