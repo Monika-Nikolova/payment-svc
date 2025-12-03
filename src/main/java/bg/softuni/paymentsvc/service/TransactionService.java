@@ -1,5 +1,6 @@
 package bg.softuni.paymentsvc.service;
 
+import bg.softuni.paymentsvc.exception.TransactionNotFoundException;
 import bg.softuni.paymentsvc.model.Transaction;
 import bg.softuni.paymentsvc.model.TransactionStatus;
 import bg.softuni.paymentsvc.property.CardsProperties;
@@ -66,7 +67,7 @@ public class TransactionService {
     }
 
     public Transaction getById(UUID transactionId) {
-        return transactionRepository.findById(transactionId).orElseThrow(() -> new RuntimeException(String.format("Transaction with id %s not found", transactionId)));
+        return transactionRepository.findById(transactionId).orElseThrow(() -> new TransactionNotFoundException(String.format("Transaction with id %s not found", transactionId)));
     }
 
     public List<Transaction> getAllForLastWeek() {
