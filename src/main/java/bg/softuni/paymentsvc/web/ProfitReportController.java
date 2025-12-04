@@ -14,7 +14,6 @@ import java.util.UUID;
 @RequestMapping("/api/v1/reports/profit")
 public class ProfitReportController {
 
-
     private final ProfitReportService profitReportService;
 
     public ProfitReportController(ProfitReportService profitReportService) {
