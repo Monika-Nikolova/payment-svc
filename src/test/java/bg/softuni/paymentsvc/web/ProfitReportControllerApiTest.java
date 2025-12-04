@@ -78,7 +78,7 @@ public class ProfitReportControllerApiTest {
     }
 
     @Test
-    void  putChangeProfitStatus_thenInvokeChangeStatus() throws Exception {
+    void putChangeProfitStatus_thenInvokeChangeStatus() throws Exception {
 
         UUID id = UUID.randomUUID();
         when(profitReportService.changeStatus(id)).thenReturn(randomProfitReport());
@@ -93,6 +93,23 @@ public class ProfitReportControllerApiTest {
                 .andExpect(jsonPath("createdOn").isNotEmpty())
                 .andExpect(jsonPath("numberOfTransactions").isNotEmpty())
                 .andExpect(jsonPath("status").isNotEmpty())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        verify(profitReportService).changeStatus(id);
+    }
+
+    @Test
+    void putChangeProfitStatus_andProfitReportServiceThrowsException() throws Exception {
+
+        UUID id = UUID.randomUUID();
+        when(profitReportService.changeStatus(id)).thenThrow(new RuntimeException("message"));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .put("/api/v1/reports/profit/" + id + "/status");
+
+        mockMvc.perform(request)
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("timestamp").isNotEmpty())
+                .andExpect(jsonPath("message").isNotEmpty())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
         verify(profitReportService).changeStatus(id);
     }

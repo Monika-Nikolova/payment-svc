@@ -1,6 +1,5 @@
 package bg.softuni.paymentsvc.property;
 
-
 import bg.softuni.paymentsvc.config.YamlPropertySourceFactory;
 import bg.softuni.paymentsvc.model.CardTier;
 import lombok.Data;
