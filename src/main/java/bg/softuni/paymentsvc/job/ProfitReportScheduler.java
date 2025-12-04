@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProfitReportScheduler {
 
-
     private final ProfitReportService profitReportService;
 
     public ProfitReportScheduler(ProfitReportService profitReportService) {

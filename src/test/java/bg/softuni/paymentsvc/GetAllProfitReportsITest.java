@@ -14,14 +14,16 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.time.YearMonth;
+import java.util.List;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("test")
 @SpringBootTest
-public class GetLatestProfitReportITest {
+public class GetAllProfitReportsITest {
 
     @Autowired
     private TransactionService transactionService;
@@ -30,7 +32,7 @@ public class GetLatestProfitReportITest {
     private ProfitReportService profitReportService;
 
     @Test
-    void getLatestProfitReport_thenFieldsCorrect() {
+    void getLatestProfitReport_thenListSizeIs3_andFieldsCorrect() {
 
         PaymentRequest paymentRequest = PaymentRequest.builder()
                 .userId(UUID.randomUUID())
@@ -46,11 +48,20 @@ public class GetLatestProfitReportITest {
         transactionService.processPayment(paymentRequest);
 
         profitReportService.generateProfitReport();
+        profitReportService.generateProfitReport();
+        profitReportService.generateProfitReport();
 
-        ProfitReport latestProfitReport = profitReportService.getLatestProfitReport();
+        List<ProfitReport> profitReports = profitReportService.getAll();
 
-        assertEquals(ProfitReportStatus.NOT_PROCESSED, latestProfitReport.getStatus());
-        assertEquals(1, latestProfitReport.getNumberOfTransactions());
-        assertEquals("55.00", latestProfitReport.getAmount().toString());
+        assertThat(profitReports).hasSize(3);
+        assertEquals(ProfitReportStatus.NOT_PROCESSED, profitReports.get(0).getStatus());
+        assertEquals("55.00", profitReports.get(0).getAmount().toString());
+        assertEquals(1, profitReports.get(0).getNumberOfTransactions());
+        assertEquals(ProfitReportStatus.NOT_PROCESSED, profitReports.get(1).getStatus());
+        assertEquals("55.00", profitReports.get(1).getAmount().toString());
+        assertEquals(1, profitReports.get(1).getNumberOfTransactions());
+        assertEquals(ProfitReportStatus.NOT_PROCESSED, profitReports.get(2).getStatus());
+        assertEquals("55.00", profitReports.get(2).getAmount().toString());
+        assertEquals(1, profitReports.get(2).getNumberOfTransactions());
     }
 }
